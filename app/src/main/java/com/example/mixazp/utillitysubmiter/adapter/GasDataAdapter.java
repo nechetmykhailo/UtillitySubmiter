@@ -38,8 +38,8 @@ public class GasDataAdapter extends RecyclerView.Adapter<GasDataAdapter.GasDataV
     @Override
     public void onBindViewHolder(GasDataViewHolder holder, int position) {
 
-        holder.tvDateGas.setText(gasModels.get(position).getGasDate());
-        holder.tvUtilsGas.setText(gasModels.get(position).getGasUtilites());
+        holder.tvDateGas.setText(gasModels.get(position).getDate());
+        holder.tvUtilsGas.setText(gasModels.get(position).getUtilites());
     }
 
     @Override

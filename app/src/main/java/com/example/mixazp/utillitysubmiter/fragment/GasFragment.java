@@ -1,6 +1,5 @@
 package com.example.mixazp.utillitysubmiter.fragment;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -38,7 +37,7 @@ public class GasFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManagers;
 
     public GasFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -57,6 +56,7 @@ public class GasFragment extends Fragment {
                 startActivityForResult(intent, REQUEST_COD_GAS);
             }
         });
+
         return v;
     }
 
@@ -67,22 +67,38 @@ public class GasFragment extends Fragment {
         if(requestCode == REQUEST_COD_GAS) {
             if (resultCode == GasActivity.RESULT_OK) {
 
-                connector = new SQLiteConnector(getActivity());
-                gasModels = new ArrayList<>();
-                gasModels = connector.getDataFromGas();
+                load();
 
-                mLayoutManagers = new LinearLayoutManager(getActivity());
-                rwGas.setLayoutManager(mLayoutManagers);
-
-                mAdapter = new GasDataAdapter(getActivity(), gasModels);
-
-//                mAdapter.notifyDataSetChanged();
-
-                rwGas.addItemDecoration(new SpacecItemDecoration(getActivity()));
-                rwGas.setAdapter(mAdapter);
-
-                Toast.makeText(getActivity(), "Данные пришли", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
+    private void load() {
+        connector = new SQLiteConnector(getActivity());
+        gasModels = new ArrayList<>();
+        gasModels = connector.getDataFromGas();
+
+        mLayoutManagers = new LinearLayoutManager(getActivity());
+        rwGas.setLayoutManager(mLayoutManagers);
+
+        mAdapter = new GasDataAdapter(getActivity(), gasModels);
+
+        rwGas.addItemDecoration(new SpacecItemDecoration(getActivity()));
+        rwGas.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        load();
+    }
+
+    //    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if(isVisibleToUser){
+////            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+//        }
+//    }
+
 }

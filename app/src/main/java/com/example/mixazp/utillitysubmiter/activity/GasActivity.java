@@ -54,7 +54,6 @@ public class GasActivity extends Activity {
                 setResult(RESULT_OK);
                 finish();
 
-                Toast.makeText(getApplicationContext(), "Данные добавлены", Toast.LENGTH_SHORT).show();
             }
         });
     }

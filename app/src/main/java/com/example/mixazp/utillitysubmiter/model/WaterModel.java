@@ -1,41 +1,41 @@
 package com.example.mixazp.utillitysubmiter.model;
 
 public class WaterModel {
-    private String dateWater;
-    private String utilesWat;
-    private String adressWat;
-    private String emailWat;
+    private String date;
+    private String utiles;
+    private String adress;
+    private String email;
 
-    public String getUtilesWat() {
-        return utilesWat;
+    public String getUtiles() {
+        return utiles;
     }
 
-    public String getDateWater() {
-        return dateWater;
+    public String getDate() {
+        return date;
     }
 
-    public void setDateWater(String dateWater) {
-        this.dateWater = dateWater;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public void setUtilesWat(String utilesWat) {
-        this.utilesWat = utilesWat;
+    public void setUtiles(String utiles) {
+        this.utiles = utiles;
     }
 
-    public String getAdressWat() {
-        return adressWat;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setAdressWat(String adressWat) {
-        this.adressWat = adressWat;
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 
-    public String getEmailWat() {
-        return emailWat;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailWat(String emailWat) {
-        this.emailWat = emailWat;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public WaterModel() {

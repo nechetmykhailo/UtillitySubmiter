@@ -72,7 +72,6 @@ public class WaterActivity extends Activity {
                 setResult(RESULT_OK);
                 finish();
 
-                Toast.makeText(getApplicationContext(), "Данные добавлены", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -83,9 +82,9 @@ public class WaterActivity extends Activity {
                 Captcha c = (Captcha) imageView.getTag();
 
                 if(c.checkAnswer(editTextCaptcha.getText().toString())){
-                    Toast.makeText(WaterActivity.this, "Верно", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "Верно", Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(WaterActivity.this, "ОЩИБКА", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "ОШИБКА", Toast.LENGTH_SHORT).show();
                 }
 
             }

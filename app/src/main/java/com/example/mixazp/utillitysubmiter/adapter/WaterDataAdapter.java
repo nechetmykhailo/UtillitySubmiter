@@ -1,10 +1,8 @@
 package com.example.mixazp.utillitysubmiter.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.mixazp.utillitysubmiter.R;
-import com.example.mixazp.utillitysubmiter.activity.WaterActivity;
 import com.example.mixazp.utillitysubmiter.model.WaterModel;
 
 import java.util.ArrayList;
@@ -41,8 +38,8 @@ public class WaterDataAdapter extends RecyclerView.Adapter<WaterDataAdapter.Wate
     @Override
     public void onBindViewHolder(WaterDataViewHolder holder, int position) {
 
-        holder.tvDateWater.setText(waterModels.get(position).getDateWater());
-        holder.tvUtilsWater.setText(waterModels.get(position).getUtilesWat());
+        holder.tvDateWater.setText(waterModels.get(position).getDate());
+        holder.tvUtilsWater.setText(waterModels.get(position).getUtiles());
     }
 
     @Override

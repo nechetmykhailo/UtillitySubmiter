@@ -1,41 +1,41 @@
 package com.example.mixazp.utillitysubmiter.model;
 
 public class GasModel {
-    private String gasDate;
-    private String gasUtilites;
-    private String gasEmail;
-    private String gasPassword;
+    private String date;
+    private String utilites;
+    private String email;
+    private String password;
 
-    public String getGasDate() {
-        return gasDate;
+    public String getDate() {
+        return date;
     }
 
-    public void setGasDate(String gasDate) {
-        this.gasDate = gasDate;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public String getGasUtilites() {
-        return gasUtilites;
+    public String getUtilites() {
+        return utilites;
     }
 
-    public void setGasUtilites(String gasUtilites) {
-        this.gasUtilites = gasUtilites;
+    public void setUtilites(String utilites) {
+        this.utilites = utilites;
     }
 
-    public String getGasEmail() {
-        return gasEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setGasEmail(String gasEmail) {
-        this.gasEmail = gasEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getGasPassword() {
-        return gasPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setGasPassword(String gasPassword) {
-        this.gasPassword = gasPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public GasModel() {

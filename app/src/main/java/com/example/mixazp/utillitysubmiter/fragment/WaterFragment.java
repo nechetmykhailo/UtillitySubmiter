@@ -33,13 +33,12 @@ public class WaterFragment extends Fragment {
 
     private SQLiteConnector connector;
 
-    private RecyclerView.Adapter mAdapterWat;
+    private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManagers;
 
     public WaterFragment() {
-        // Required empty public constructor
-    }
 
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,11 +52,10 @@ public class WaterFragment extends Fragment {
         fabOkWa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(getContext(), WaterActivity.class);
+                intent = new Intent(getActivity(), WaterActivity.class);
                 startActivityForResult(intent, REQUEST_COD_WATER);
             }
         });
-
         return v;
     }
 
@@ -67,23 +65,28 @@ public class WaterFragment extends Fragment {
 
         if(requestCode == REQUEST_COD_WATER) {
             if (resultCode == WaterActivity.RESULT_OK) {
-
-                connector = new SQLiteConnector(getActivity());
-                waterModels = new ArrayList<>();
-                waterModels = connector.getDataFromWat();
-
-                mLayoutManagers = new LinearLayoutManager(getActivity());
-                rwWa.setLayoutManager(mLayoutManagers);
-
-                mAdapterWat = new WaterDataAdapter(getActivity(), waterModels);
-
-//                mAdapterWat.notifyDataSetChanged();
-
-                rwWa.addItemDecoration(new SpacecItemDecoration(getActivity()));
-                rwWa.setAdapter(mAdapterWat);
-
-                Toast.makeText(getActivity(), "Данные пришли", Toast.LENGTH_SHORT).show();
+                load();
             }
         }
+    }
+
+    private void load() {
+        connector = new SQLiteConnector(getActivity());
+        waterModels = new ArrayList<>();
+        waterModels = connector.getDataFromWat();
+
+        mLayoutManagers = new LinearLayoutManager(getActivity());
+        rwWa.setLayoutManager(mLayoutManagers);
+
+        mAdapter = new WaterDataAdapter(getActivity(), waterModels);
+
+        rwWa.addItemDecoration(new SpacecItemDecoration(getActivity()));
+        rwWa.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        load();
     }
 }

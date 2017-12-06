@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.example.mixazp.utillitysubmiter.model.ElectrModel;
 import com.example.mixazp.utillitysubmiter.model.GasModel;
@@ -19,7 +18,7 @@ import java.util.List;
 public class SQLiteConnector extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
-
+    private Cursor cursor;
     Context context;
 
     public SQLiteConnector(Context context) {
@@ -32,13 +31,13 @@ public class SQLiteConnector extends SQLiteOpenHelper {
             sqLiteDatabase.execSQL("create table Electricity (_id integer primary key autoincrement,"
                     + "dateEl varchar(100),"
                     + "utilElectr varchar(100),"
-                    + "adressEl nvarchar(100),"
+                    + "adressEl varchar(100),"
                     + "email varchar(100) )");
 
             sqLiteDatabase.execSQL("create table Water (_id integer primary key autoincrement,"
                     + "dateWater varchar(100),"
                     + "utilWater varchar(100),"
-                    + "adressWater nvarchar(100),"
+                    + "adressWater varchar(100),"
                     + "emailWater varchar(100) )");
 
             sqLiteDatabase.execSQL("create table Gas (_id integer primary key autoincrement,"
@@ -83,15 +82,15 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         String query = "select * from Electricity";
 
         db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
+        cursor = db.rawQuery(query,null);
 
         if (cursor.moveToFirst()){
             do {
                 ElectrModel modelEl = new ElectrModel();
-                modelEl.setDateEl(cursor.getString(1));
-                modelEl.setUtilesEl(cursor.getString(2));
-                modelEl.setAdressEl(cursor.getString(3));
-                modelEl.setEmailEl(cursor.getString(4));
+                modelEl.setDate(cursor.getString(1));
+                modelEl.setUtiles(cursor.getString(2));
+                modelEl.setAdress(cursor.getString(3));
+                modelEl.setEmail(cursor.getString(4));
 
                 modelList.add(modelEl);
             }while (cursor.moveToNext());
@@ -122,16 +121,16 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         String query = "select * from Water";
 
         db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
+        cursor = db.rawQuery(query,null);
 
         if (cursor.moveToFirst()){
             do {
                 WaterModel modelWat = new WaterModel();
                 
-                modelWat.setDateWater(cursor.getString(1));
-                modelWat.setUtilesWat(cursor.getString(2));
-                modelWat.setAdressWat(cursor.getString(3));
-                modelWat.setEmailWat(cursor.getString(4));
+                modelWat.setDate(cursor.getString(1));
+                modelWat.setUtiles(cursor.getString(2));
+                modelWat.setAdress(cursor.getString(3));
+                modelWat.setEmail(cursor.getString(4));
 
                 modelListWter.add(modelWat);
             }while (cursor.moveToNext());
@@ -158,25 +157,29 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     }
 
     // Читаем курсором данные из БД
-    public List<GasModel> getDataFromGas(){
-        List<GasModel> modelListGas = new ArrayList<>();
-        String query = "select * from Gas";
+    public List<GasModel> getDataFromGas() {
+        try {
+            List<GasModel> modelListGas = new ArrayList<>();
+            String query = "select * from Gas";
 
-        db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
+            db = this.getWritableDatabase();
+            cursor = db.rawQuery(query, null);
 
-        if (cursor.moveToFirst()){
-            do {
-                GasModel model = new GasModel();
+            if (cursor.moveToFirst()) {
+                do {
+                    GasModel model = new GasModel();
 
-                model.setGasDate(cursor.getString(1));
-                model.setGasUtilites(cursor.getString(2));
-                model.setGasEmail(cursor.getString(3));
-                model.setGasPassword(cursor.getString(4));
+                    model.setDate(cursor.getString(1));
+                    model.setUtilites(cursor.getString(2));
+                    model.setEmail(cursor.getString(3));
+                    model.setPassword(cursor.getString(4));
 
-                modelListGas.add(model);
-            }while (cursor.moveToNext());
+                    modelListGas.add(model);
+                } while (cursor.moveToNext());
+            }
+            return modelListGas;
+        }finally {
+            cursor.close();
         }
-        return modelListGas;
     }
 }

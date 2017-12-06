@@ -1,41 +1,41 @@
 package com.example.mixazp.utillitysubmiter.model;
 
 public class ElectrModel {
-    private String dateEl;
-    private String utilesEl;
-    private String adressEl;
-    private String emailEl;
+    private String date;
+    private String utiles;
+    private String adress;
+    private String email;
 
-    public String getUtilesEl() {
-        return utilesEl;
+    public String getUtiles() {
+        return utiles;
     }
 
-    public void setUtilesEl(String utilesEl) {
-        this.utilesEl = utilesEl;
+    public void setUtiles(String utiles) {
+        this.utiles = utiles;
     }
 
-    public String getAdressEl() {
-        return adressEl;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setAdressEl(String adressEl) {
-        this.adressEl = adressEl;
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 
-    public String getEmailEl() {
-        return emailEl;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailEl(String emailEl) {
-        this.emailEl = emailEl;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getDateEl() {
-        return dateEl;
+    public String getDate() {
+        return date;
     }
 
-    public void setDateEl(String dateEl) {
-        this.dateEl = dateEl;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public ElectrModel() {

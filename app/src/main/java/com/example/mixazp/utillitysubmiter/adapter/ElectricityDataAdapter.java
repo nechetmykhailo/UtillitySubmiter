@@ -38,8 +38,8 @@ public class ElectricityDataAdapter extends RecyclerView.Adapter<ElectricityData
     @Override
     public void onBindViewHolder(ElectricityDataViewHolder holder, int position) {
 
-        holder.tvDateEl.setText(electrModels.get(position).getDateEl());
-        holder.tvUtilsEl.setText(electrModels.get(position).getUtilesEl());
+        holder.tvDateEl.setText(electrModels.get(position).getDate());
+        holder.tvUtilsEl.setText(electrModels.get(position).getUtiles());
     }
 
     @Override
