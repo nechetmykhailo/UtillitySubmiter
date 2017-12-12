@@ -44,12 +44,12 @@ public class GasActivity extends Activity {
                 connector = new SQLiteConnector(getApplicationContext());
                 db = connector.getWritableDatabase();
 
-                String dateGas = etDateGas.getText().toString();
+//                String dateGas = etDateGas.getText().toString();
                 String utilitiesGas = etUtilesGas.getText().toString();
                 String emailGas = etEmailGas.getText().toString();
                 String passwordGas = etPassGas.getText().toString();
 
-                connector.insertGas(dateGas, utilitiesGas, emailGas, passwordGas);
+                connector.insertGas(utilitiesGas, emailGas, passwordGas);
 
                 setResult(RESULT_OK);
                 finish();

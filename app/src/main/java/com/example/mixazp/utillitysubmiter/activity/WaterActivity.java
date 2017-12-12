@@ -62,12 +62,12 @@ public class WaterActivity extends Activity {
                 connector = new SQLiteConnector(getApplicationContext());
                 db = connector.getWritableDatabase();
 
-                String dateWater = etDateWa.getText().toString();
+//                String dateWater = etDateWa.getText().toString();
                 String utiltesWater = etUtilesWa.getText().toString();
                 String dateWat = etDateWa.getText().toString();
                 String emailWat = etEmailWa.getText().toString();
 
-                connector.insertWater(dateWater, utiltesWater, dateWat, emailWat);
+                connector.insertWater(utiltesWater, dateWat, emailWat);
 
                 setResult(RESULT_OK);
                 finish();

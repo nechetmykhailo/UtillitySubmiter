@@ -1,10 +1,11 @@
 package com.example.mixazp.utillitysubmiter.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,13 @@ import android.widget.Toast;
 
 import com.example.mixazp.utillitysubmiter.R;
 import com.example.mixazp.utillitysubmiter.SQLiteConnector;
+import com.example.mixazp.utillitysubmiter.model.ElectrModel;
+import com.example.mixazp.utillitysubmiter.retrofit.APIService;
+import com.example.mixazp.utillitysubmiter.retrofit.ApiUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ElectricityActivity extends Activity {
@@ -27,6 +35,9 @@ public class ElectricityActivity extends Activity {
     private SQLiteConnector connector;
     private SQLiteDatabase db;
 
+    private String s;
+
+    private APIService mApiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,29 +52,53 @@ public class ElectricityActivity extends Activity {
         btnScanEl = (Button) findViewById(R.id.btnScanEl);
         fabElectr = (FloatingActionButton) findViewById(R.id.fabElectr);
 
+        mApiService = ApiUtils.getAPIService();
+
+        connector = new SQLiteConnector(getApplicationContext());
+        s = connector.getDateTime();
+        etDateEl.setText(s);
+
         fabElectr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                connector = new SQLiteConnector(getApplicationContext());
                 db = connector.getWritableDatabase();
 
-                String date = etDateEl.getText().toString();
-                String utills = etUtilesEl.getText().toString();
-                String adresses = etAdressEl.getText().toString();
-                String email = etEmailEl.getText().toString();
+                String utiles = etUtilesEl.getText().toString();
+                String adress = etAdressEl.getText().toString();
+                String email = etEmailEl.getText().toString().trim();
+                String dateTime = etDateEl.getText().toString();
 
-                if(date.equals("") || utills.equals("") || adresses.equals("") || email.equals("")){
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+                if(utiles.equals("")
+                        || adress.equals("")
+                        || email.matches(emailPattern)){
                     Toast.makeText(getApplicationContext(), "Все поля должны быть заполнены", Toast.LENGTH_SHORT).show();
                 }else {
-
-                    connector.insertElectricity(date , utills,adresses, email);
-                    setResult(RESULT_OK);
-                    finish();
+                    sendPost(dateTime ,utiles, adress, email);
                 }
             }
         });
     }
 
+    private void sendPost(final String dateTime , final String utiles, final String adress, final String email) {
+        mApiService.savePost(dateTime, utiles, adress, email).enqueue(new Callback<ElectrModel>() {
+            @Override
+            public void onResponse(Call<ElectrModel> call, Response<ElectrModel> response) {
 
+                connector.insertElectricity(dateTime ,utiles, adress, email);
+                setResult(RESULT_OK);
+                finish();
+
+                Log.d("LOL", response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<ElectrModel> call, Throwable t) {
+
+                Toast.makeText(getApplicationContext(), "Ошибка в Отправке в ретрофите", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

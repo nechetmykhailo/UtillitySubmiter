@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".activity.GasActivity" />
         <activity android:name=".activity.ElectricityActivity" />
-        <activity android:name=".activity.WaterActivity"></activity>
+        <activity android:name=".activity.WaterActivity"/>
     </application>
 
 </manifest>

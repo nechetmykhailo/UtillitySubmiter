@@ -9,12 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.mixazp.utillitysubmiter.R;
 import com.example.mixazp.utillitysubmiter.SQLiteConnector;
 import com.example.mixazp.utillitysubmiter.SpacecItemDecoration;
-import com.example.mixazp.utillitysubmiter.UpdadeInterface;
 import com.example.mixazp.utillitysubmiter.activity.ElectricityActivity;
 import com.example.mixazp.utillitysubmiter.adapter.ElectricityDataAdapter;
 import com.example.mixazp.utillitysubmiter.model.ElectrModel;
@@ -22,7 +20,7 @@ import com.example.mixazp.utillitysubmiter.model.ElectrModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ElectricityFragment extends Fragment implements UpdadeInterface{
+public class ElectricityFragment extends Fragment {
 
     public static final int REQUEST_COD_ELECTRICITY = 1;
 
@@ -71,7 +69,6 @@ public class ElectricityFragment extends Fragment implements UpdadeInterface{
         }
     }
 
-    @Override
     public void update() {
         connector = new SQLiteConnector(getActivity());
         electrModels = new ArrayList<>();

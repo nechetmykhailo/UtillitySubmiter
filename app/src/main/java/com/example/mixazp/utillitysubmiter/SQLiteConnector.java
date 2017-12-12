@@ -12,8 +12,11 @@ import com.example.mixazp.utillitysubmiter.model.ElectrModel;
 import com.example.mixazp.utillitysubmiter.model.GasModel;
 import com.example.mixazp.utillitysubmiter.model.WaterModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class SQLiteConnector extends SQLiteOpenHelper {
 
@@ -29,19 +32,19 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         try{
             sqLiteDatabase.execSQL("create table Electricity (_id integer primary key autoincrement,"
-                    + "dateEl varchar(100),"
+                    + "dateEl DATETIME DEFAULT CURRENT_DATE,"
                     + "utilElectr varchar(100),"
                     + "adressEl varchar(100),"
                     + "email varchar(100) )");
 
             sqLiteDatabase.execSQL("create table Water (_id integer primary key autoincrement,"
-                    + "dateWater varchar(100),"
+                    + "dateWater DATETIME DEFAULT CURRENT_DATE,"
                     + "utilWater varchar(100),"
                     + "adressWater varchar(100),"
                     + "emailWater varchar(100) )");
 
             sqLiteDatabase.execSQL("create table Gas (_id integer primary key autoincrement,"
-                    + "dateGas varchar(100),"
+                    + "dateGas DATETIME DEFAULT CURRENT_DATE,"
                     + "utilitiesGas varchar(100),"
                     + "emailGas varchar(100),"
                     + "passwordGas varchar(100) )" );
@@ -64,6 +67,8 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     public void insertElectricity(String dateEl, String utilElectr, String adressEl, String email){
 
         db = this.getWritableDatabase();
+
+//        dateTime = getDateTime();
 
         ContentValues values = new ContentValues();
         values.put("dateEl", dateEl);
@@ -100,12 +105,12 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     }
 
     // Добавление в БД Water
-    public void insertWater(String dateWater ,String utilWater, String adressWater, String emailWater){
+    public void insertWater(String utilWater, String adressWater, String emailWater){
 
         db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put("dateWater", dateWater);
+        values.put("dateWater", getDateTime());
         values.put("utilWater", utilWater);
         values.put("adressWater", adressWater);
         values.put("emailWater", emailWater);
@@ -141,12 +146,12 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     }
 
     // Добавление в БД Gas
-    public void insertGas(String dateGas, String utilitiesGas, String emailGas, String passwordGas){
+    public void insertGas(String utilitiesGas, String emailGas, String passwordGas){
 
         db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put("dateGas", dateGas);
+        values.put("dateGas", getDateTime());
         values.put("utilitiesGas", utilitiesGas);
         values.put("emailGas", emailGas);
         values.put("passwordGas", passwordGas);
@@ -181,5 +186,12 @@ public class SQLiteConnector extends SQLiteOpenHelper {
         }finally {
             cursor.close();
         }
+    }
+
+    public String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "dd.MM.yyyy", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 }
