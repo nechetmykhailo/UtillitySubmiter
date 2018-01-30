@@ -68,8 +68,6 @@ public class SQLiteConnector extends SQLiteOpenHelper {
 
         db = this.getWritableDatabase();
 
-//        dateTime = getDateTime();
-
         ContentValues values = new ContentValues();
         values.put("dateEl", dateEl);
         values.put("utilElectr", utilElectr);
@@ -105,14 +103,13 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     }
 
     // Добавление в БД Water
-    public void insertWater(String utilWater, String adressWater, String emailWater){
+    public void insertWater(String dateWater ,String utilWater, String emailWater){
 
         db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put("dateWater", getDateTime());
+        values.put("dateWater", dateWater);
         values.put("utilWater", utilWater);
-        values.put("adressWater", adressWater);
         values.put("emailWater", emailWater);
 
         db.insert("Water", null, values);
@@ -146,12 +143,12 @@ public class SQLiteConnector extends SQLiteOpenHelper {
     }
 
     // Добавление в БД Gas
-    public void insertGas(String utilitiesGas, String emailGas, String passwordGas){
+    public void insertGas(String dateGas ,String utilitiesGas, String passwordGas, String emailGas){
 
         db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put("dateGas", getDateTime());
+        values.put("dateGas", dateGas);
         values.put("utilitiesGas", utilitiesGas);
         values.put("emailGas", emailGas);
         values.put("passwordGas", passwordGas);

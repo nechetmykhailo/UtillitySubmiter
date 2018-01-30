@@ -25,22 +25,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="date"
-            android:hint="Введите дату"/>
+            android:inputType="date" />
 
         <EditText
             android:id="@+id/etUtilesGas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Gas utilities"/>
+            android:inputType="numberDecimal"
+            android:digits="0123456789"
+            android:hint="@string/utills"/>
 
         <Button
             android:id="@+id/btnScanGas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scan" />
+            android:text="@string/scan" />
 
         <EditText
             android:id="@+id/etEmailGas"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:hint="Email"/>
+            android:hint="@string/email"/>
 
         <EditText
             android:id="@+id/etPassGas"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-            android:hint="Password"/>
+            android:hint="@string/password"/>
 
     </LinearLayout>
 

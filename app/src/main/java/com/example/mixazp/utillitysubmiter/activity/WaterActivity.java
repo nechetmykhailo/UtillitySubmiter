@@ -1,7 +1,6 @@
 package com.example.mixazp.utillitysubmiter.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,79 +13,79 @@ import android.widget.Toast;
 
 import com.example.mixazp.utillitysubmiter.R;
 import com.example.mixazp.utillitysubmiter.SQLiteConnector;
+import com.example.mixazp.utillitysubmiter.model.WaterModel;
+import com.example.mixazp.utillitysubmiter.retrofit.ApiService;
+import com.example.mixazp.utillitysubmiter.retrofit.RetrofitClient;
 import com.rogerlemmonapps.captcha.Captcha;
 import com.rogerlemmonapps.captcha.TextCaptcha;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class WaterActivity extends Activity {
 
     private EditText etDateWa;
     private EditText etUtilesWa;
     private EditText etBtnUtilesWa;
-    private EditText etAdressWa;
     private EditText etEmailWa;
     private Button btnScanWa;
     private FloatingActionButton fabWater;
 
     private ImageView imageView;
     private EditText editTextCaptcha;
-    private Button btnCaptcha;
     private ImageButton imBtnCaptca;
 
     private Button btnScanEl;
     private SQLiteConnector connector;
     private SQLiteDatabase db;
 
+    private ApiService mApiService;
+    private String s;
+
+    private Captcha c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_water);
 
-        etDateWa = (EditText) findViewById(R.id.etDateWa);
-        etUtilesWa = (EditText) findViewById(R.id.etUtilesWa);
-        etBtnUtilesWa = (EditText) findViewById(R.id.etBtnUtilesWa);
-//        etAdressWa = (EditText) findViewById(R.id.etAdressWa);
-        etEmailWa = (EditText) findViewById(R.id.etEmailWa);
-        btnScanWa = (Button) findViewById(R.id.btnScanWa);
-        fabWater = (FloatingActionButton) findViewById(R.id.fabWater);
+        etDateWa = findViewById(R.id.etDateWa);
+        etUtilesWa = findViewById(R.id.etUtilesWa);
+        etBtnUtilesWa = findViewById(R.id.etBtnUtilesWa);
+        etEmailWa = findViewById(R.id.etEmailWa);
+        btnScanWa = findViewById(R.id.btnScanWa);
+        fabWater = findViewById(R.id.fabWater);
+        imageView = findViewById(R.id.ivCaptchaWater);
+        editTextCaptcha = findViewById(R.id.etCaptchaWater);
+        imBtnCaptca = findViewById(R.id.imBtnCaptca);
 
-        imageView = (ImageView) findViewById(R.id.ivCaptchaWater);
-        editTextCaptcha = (EditText)findViewById(R.id.etCaptchaWater);
-        btnCaptcha = (Button)findViewById(R.id.btnCaptchaWater);
-        imBtnCaptca = (ImageButton) findViewById(R.id.imBtnCaptca);
+        mApiService = RetrofitClient.getApiService();
+        connector = new SQLiteConnector(getApplicationContext());
+        s = connector.getDateTime();
+        etDateWa.setText(s);
 
         showCaptcha(TextCaptcha.TextOptions.LETTERS_ONLY);
 
         fabWater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                connector = new SQLiteConnector(getApplicationContext());
                 db = connector.getWritableDatabase();
 
-//                String dateWater = etDateWa.getText().toString();
                 String utiltesWater = etUtilesWa.getText().toString();
-                String dateWat = etDateWa.getText().toString();
-                String emailWat = etEmailWa.getText().toString();
+                String email = etEmailWa.getText().toString();
+                String date = etDateWa.getText().toString();
 
-                connector.insertWater(utiltesWater, dateWat, emailWat);
-
-                setResult(RESULT_OK);
-                finish();
-
-            }
-        });
-
-        btnCaptcha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Captcha c = (Captcha) imageView.getTag();
-
-                if(c.checkAnswer(editTextCaptcha.getText().toString())){
-                    Toast.makeText(getApplication(), "Верно", Toast.LENGTH_SHORT).show();
+                if (utiltesWater.equals("") || email.equals("")) {
+                    Toast.makeText(getApplicationContext(), R.string.notNull, Toast.LENGTH_SHORT).show();
+                } else if (!validatorEmail(email)){
+                    Toast.makeText(getApplicationContext(), R.string.invalideEmail, Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(getApplication(), "ОШИБКА", Toast.LENGTH_SHORT).show();
+                    insertWater(date ,utiltesWater, email);
                 }
-
             }
         });
 
@@ -98,9 +97,46 @@ public class WaterActivity extends Activity {
         });
     }
 
+    private void insertWater(final String date, final String utiltesWater, final String emailWat) {
+        mApiService.waterPost(date, utiltesWater, emailWat).enqueue(new Callback<WaterModel>() {
+            @Override
+            public void onResponse(Call<WaterModel> call, Response<WaterModel> response) {
+                if (response.isSuccessful()) {
+                    c = (Captcha) imageView.getTag();
+                    if(c.checkAnswer(editTextCaptcha.getText().toString())){
+                        connector.insertWater(date ,utiltesWater, emailWat);
+                        setResult(RESULT_OK);
+                        finish();
+                    }else {
+                        Toast.makeText(getApplication(), R.string.captcha, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } else {
+                    Toast.makeText(getApplication(), R.string.exeption, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WaterModel> call, Throwable t) {
+                Toast.makeText(getApplication(), R.string.exeption, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void showCaptcha(TextCaptcha.TextOptions type) {
-        Captcha c = new TextCaptcha(400,150, 4,type);
+        c = new TextCaptcha(400,150, 4,type);
         imageView.setImageBitmap(c.getImage());
         imageView.setTag(c);
+    }
+
+    private boolean validatorEmail(String email) {
+        String regExpn = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(regExpn,Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+
+        return matcher.matches();
     }
 }

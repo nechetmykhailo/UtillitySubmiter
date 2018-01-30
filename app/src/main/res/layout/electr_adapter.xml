@@ -8,13 +8,11 @@
         android:id="@+id/tvDateEl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:textSize="20dp"/>
 
     <TextView
         android:id="@+id/tvUtilsEl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:textSize="15dp"/>
 </LinearLayout>

@@ -1,19 +1,24 @@
 package com.example.mixazp.utillitysubmiter.retrofit;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static Retrofit retrofit = null;
+    private static final String ROOT_URL = "http://jsonplaceholder.typicode.com/";
 
-    public static Retrofit getClient(String baseUrl) {
-        if (retrofit==null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit;
+    private static final OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+
+    private static Retrofit getRetrofitInstance() {
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl(ROOT_URL)
+                .addConverterFactory(GsonConverterFactory.create());
+
+        return builder.client(httpClient.build()).build();
+    }
+
+    public static ApiService getApiService() {
+        return getRetrofitInstance().create(ApiService.class);
     }
 }

@@ -9,14 +9,12 @@
         android:id="@+id/tvDateGas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:textSize="20dp"/>
 
     <TextView
         android:id="@+id/tvUtilsGas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:textSize="15dp"/>
 
 </LinearLayout>

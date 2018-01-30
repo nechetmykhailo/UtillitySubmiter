@@ -44,8 +44,8 @@ public class ElectricityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_electricity, container, false);
 
-        rwEl = (RecyclerView) v.findViewById(R.id.rwEl);
-        fabOkEl = (FloatingActionButton) v.findViewById(R.id.fabOkEl);
+        rwEl = v.findViewById(R.id.rwEl);
+        fabOkEl = v.findViewById(R.id.fabOkEl);
 
         electrModels = new ArrayList<>();
         fabOkEl.setOnClickListener(new View.OnClickListener() {

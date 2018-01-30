@@ -45,8 +45,8 @@ public class WaterFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_water, container, false);
 
-        rwWa = (RecyclerView) v.findViewById(R.id.rwWa);
-        fabOkWa = (FloatingActionButton) v.findViewById(R.id.fabOkWa);
+        rwWa = v.findViewById(R.id.rwWa);
+        fabOkWa = v.findViewById(R.id.fabOkWa);
 
         waterModels = new ArrayList<>();
         fabOkWa.setOnClickListener(new View.OnClickListener() {

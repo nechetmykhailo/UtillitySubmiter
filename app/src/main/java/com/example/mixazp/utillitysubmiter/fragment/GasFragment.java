@@ -45,8 +45,8 @@ public class GasFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_gas, container, false);
 
-        rwGas = (RecyclerView) v.findViewById(R.id.rwGas);
-        fabOkGas = (FloatingActionButton) v.findViewById(R.id.fabOkGas);
+        rwGas = v.findViewById(R.id.rwGas);
+        fabOkGas = v.findViewById(R.id.fabOkGas);
 
         gasModels = new ArrayList<>();
         fabOkGas.setOnClickListener(new View.OnClickListener() {
@@ -66,9 +66,7 @@ public class GasFragment extends Fragment {
 
         if(requestCode == REQUEST_COD_GAS) {
             if (resultCode == GasActivity.RESULT_OK) {
-
                 load();
-
             }
         }
     }

@@ -3,4 +3,19 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="captcha">Не правильно введена каптача</string>
+    <string name="utills">Введите показания</string>
+    <string name="address">Введите адресс</string>
+    <string name="email">Введите емейл</string>
+    <string name="scan">Scan</string>
+    <string name="password">Password</string>
+    <string name="exeption">Данные не отправленны, повторите</string>
+    <string name="notNull">Все поля должны быть заполнены</string>
+
+    <string name="internet">Отсуствует подключение к интернету</string>
+    <string name="invalideEmail">Invalid Email</string>
+
+
 </resources>

@@ -25,23 +25,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="date"
-            android:hint="Введите дату"/>
+            android:inputType="date" />
 
         <EditText
             android:id="@+id/etUtilesEl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="number"
-            android:hint="Введите показания"/>
+            android:inputType="numberDecimal"
+            android:digits="0123456789"
+            android:hint="@string/utills"/>
 
         <Button
             android:id="@+id/btnScanEl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scan"
-            android:drawableRight="@drawable/camera"/>
+            android:text="@string/scan"
+            android:drawableEnd="@drawable/camera"/>
 
         <EditText
             android:id="@+id/etBtnUtilesEl"
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Введите адресс"
+            android:hint="@string/address"
             android:inputType="text" />
 
         <EditText
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:hint="Введите емейл"/>
+            android:hint="@string/email"/>
 
     </LinearLayout>
 
