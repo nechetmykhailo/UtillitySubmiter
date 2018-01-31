@@ -15,6 +15,7 @@ import com.example.mixazp.utillitysubmiter.SQLiteConnector;
 import com.example.mixazp.utillitysubmiter.model.GasModel;
 import com.example.mixazp.utillitysubmiter.retrofit.ApiService;
 import com.example.mixazp.utillitysubmiter.retrofit.RetrofitClient;
+import com.example.mixazp.utillitysubmiter.scan.ScanActivity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,6 +26,7 @@ import retrofit2.Response;
 
 public class GasActivity extends Activity {
 
+    private static final int REQUEST_COD_SCAN_GAS = 2;
     private EditText etDateGas;
     private EditText etUtilesGas;
     private EditText etPassGas;
@@ -73,8 +75,15 @@ public class GasActivity extends Activity {
                 }else {
                     insertGas(date ,utilitiesGas, passwordGas, email);
                 }
+            }
+        });
 
+        btnScanGas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GasActivity.this, ScanActivity.class);
 
+                startActivityForResult(intent, REQUEST_COD_SCAN_GAS);
             }
         });
     }
@@ -109,5 +118,17 @@ public class GasActivity extends Activity {
         Matcher matcher = pattern.matcher(inputStr);
 
         return matcher.matches();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_COD_SCAN_GAS) {
+            if (resultCode == ScanActivity.RESULT_OK) {
+
+                String str = data.getStringExtra("scan");
+
+                etUtilesGas.setText(str);
+            }
+        }
     }
 }

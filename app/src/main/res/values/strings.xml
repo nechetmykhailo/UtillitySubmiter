@@ -16,6 +16,7 @@
 
     <string name="internet">Отсуствует подключение к интернету</string>
     <string name="invalideEmail">Invalid Email</string>
+    <string name="myCaptcha">Captcha</string>
 
 
 </resources>

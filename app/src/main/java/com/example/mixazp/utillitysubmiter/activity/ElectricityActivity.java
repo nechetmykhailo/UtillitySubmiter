@@ -1,6 +1,7 @@
 package com.example.mixazp.utillitysubmiter.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import com.example.mixazp.utillitysubmiter.SQLiteConnector;
 import com.example.mixazp.utillitysubmiter.model.ElectrModel;
 import com.example.mixazp.utillitysubmiter.retrofit.ApiService;
 import com.example.mixazp.utillitysubmiter.retrofit.RetrofitClient;
+import com.example.mixazp.utillitysubmiter.scan.ScanActivity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,6 +28,7 @@ import retrofit2.Response;
 
 public class ElectricityActivity extends Activity {
 
+    private static final int REQUEST_COD_SCAN_ELECTRICITY = 1;
     private EditText etDateEl;
     private EditText etUtilesEl;
     private EditText etBtnUtilesEl;
@@ -69,14 +72,46 @@ public class ElectricityActivity extends Activity {
                 String adress = etAdressEl.getText().toString();
                 String email = etEmailEl.getText().toString().trim();
                 String dateTime = etDateEl.getText().toString();
+                String utilesScann = etBtnUtilesEl.getText().toString();
 
-                if(utiles.equals("") || adress.equals("")){
+                if((utiles.equals("") || utilesScann.equals("")) && adress.equals("")){
                     Toast.makeText(getApplicationContext(), R.string.notNull, Toast.LENGTH_SHORT).show();
                 }else if (!validatorEmail(email)){
                     Toast.makeText(getApplicationContext(), R.string.invalideEmail, Toast.LENGTH_SHORT).show();
                 } else {
-                    sendPost(dateTime ,utiles, adress, email);
+                    if (utilesScann.equals("")) {
+                        sendPost(dateTime ,utiles, adress, email);
+                    } else {
+                        sendPostScann(dateTime ,utilesScann, adress, email);
+                    }
                 }
+            }
+        });
+
+        btnScanEl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ElectricityActivity.this, ScanActivity.class);
+                startActivityForResult(intent, REQUEST_COD_SCAN_ELECTRICITY);
+            }
+        });
+    }
+
+    private void sendPostScann(final String dateTime, final String utilesScann, final String adress, final String email) {
+        mApiService.savePost(dateTime, utilesScann, adress, email).enqueue(new Callback<ElectrModel>() {
+            @Override
+            public void onResponse(Call<ElectrModel> call, Response<ElectrModel> response) {
+                if (response.isSuccessful()) {
+                    connector.insertElectricity(dateTime ,utilesScann, adress, email);
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ElectrModel> call, Throwable t) {
+
             }
         });
     }
@@ -109,5 +144,17 @@ public class ElectricityActivity extends Activity {
         Matcher matcher = pattern.matcher(inputStr);
 
         return matcher.matches();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_COD_SCAN_ELECTRICITY) {
+            if (resultCode == ScanActivity.RESULT_OK) {
+
+                String str = data.getStringExtra("scan");
+
+                etBtnUtilesEl.setText(str);
+            }
+        }
     }
 }
